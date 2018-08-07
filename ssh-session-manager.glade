@@ -2,9 +2,18 @@
 <!-- Generated with glade 3.20.4 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkTreeStore" id="server_store">
+    <columns>
+      <!-- column-name server_alias -->
+      <column type="gchararray"/>
+      <!-- column-name server_name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
-    <property name="default_height">400</property>
+    <property name="default_width">350</property>
+    <property name="default_height">700</property>
     <signal name="destroy" handler="onDestroy" swapped="no"/>
     <child>
       <object class="GtkScrolledWindow">
@@ -28,12 +37,25 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkTreeViewColumn" id="server_name_column">
-                    <property name="title" translatable="yes">Server</property>
+                  <object class="GtkTreeViewColumn" id="server_alias_column">
+                    <property name="resizable">True</property>
+                    <property name="title" translatable="yes">Server Alias</property>
                     <child>
-                      <object class="GtkCellRendererText" id="server_cell_renderer"/>
+                      <object class="GtkCellRendererText" id="server_alias_cell_renderer"/>
                       <attributes>
                         <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="server_name_column">
+                    <property name="resizable">True</property>
+                    <property name="title" translatable="yes">Server Hostname</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="server_name_cell_renderer"/>
+                      <attributes>
+                        <attribute name="text">1</attribute>
                       </attributes>
                     </child>
                   </object>
@@ -47,11 +69,5 @@
     <child type="titlebar">
       <placeholder/>
     </child>
-  </object>
-  <object class="GtkTreeStore" id="server_store">
-    <columns>
-      <!-- column-name server_name -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>
