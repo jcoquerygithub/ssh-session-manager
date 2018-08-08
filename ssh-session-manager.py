@@ -29,11 +29,14 @@ class Handler:
         treeiter = model.get_iter(path)
         if treeiter is not None:
             print("You db click on", model[treeiter][0])
-            subprocess.Popen(['/usr/bin/putty', '-title', get_path_unix_style(model, treeiter), model[treeiter][1]])
+            subprocess.Popen(['/usr/bin/putty',
+                              '-title', get_path_unix_style(model, treeiter),
+                              '-l', model[treeiter][2],
+                              model[treeiter][1]])
 
 
 def add_to_store(store, parent, node):
-    store_node = store.append(parent, [node.get('Name'), node.get('Hostname')])
+    store_node = store.append(parent, [node.get('Name'), node.get('Hostname'), node.get('Username')])
     if len(node.getchildren()) != 0:
         for subnodes in node:
             add_to_store(store, store_node, subnodes)
