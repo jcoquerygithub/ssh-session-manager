@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+from pathlib import Path
 import os
 import subprocess
 
@@ -37,9 +39,10 @@ class Handler:
 
 def add_to_store(store, parent, node):
     store_node = store.append(parent, [node.get('Name'), node.get('Hostname'), node.get('Username')])
-    if len(node.getchildren()) != 0:
-        for subnodes in node:
+    if len(list(node)) != 0:
+        for subnodes in list(node):
             add_to_store(store, store_node, subnodes)
+
 
 def get_path_unix_style(model, node):
     parent = model.iter_parent(node)
@@ -48,17 +51,15 @@ def get_path_unix_style(model, node):
     else:
         return '{}/{}'.format(get_path_unix_style(model, parent),model[node][0])
 
+
 builder = Gtk.Builder()
-builder.add_from_file("ssh-session-manager.glade")
+builder.add_from_file(os.path.join(os.path.dirname(os.path.realpath(__file__)), "ssh-session-manager.glade"))
 
 #: :type: Gtk.TreeStore
 server_store = builder.get_object("server_store")
-if os.path.isfile('../../../progs/mremoteng/confCons.xml'):
-    tree = Et.parse('../../../progs/mremoteng/confCons.xml')
-
-    #: :type: Et.ElementTree
-    root = tree.getroot()
-    add_to_store(server_store, None, root)
+if os.path.isfile(os.path.join(str(Path.home()), 'progs/mremoteng/confCons.xml')):
+    tree = Et.parse(os.path.join(str(Path.home()), 'progs/mremoteng/confCons.xml'))
+    add_to_store(server_store, None, tree.getroot())
 
 builder.connect_signals(Handler())
 
