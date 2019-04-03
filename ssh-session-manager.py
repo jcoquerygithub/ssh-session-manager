@@ -31,10 +31,9 @@ class Handler:
         treeiter = model.get_iter(path)
         if treeiter is not None:
             print("You db click on", model[treeiter][0])
-            subprocess.Popen(['/usr/bin/putty',
-                              '-title', get_path_unix_style(model, treeiter),
-                              '-l', model[treeiter][2],
-                              model[treeiter][1]])
+            subprocess.Popen(['/usr/bin/gnome-terminal',
+                              '--title', get_path_unix_style(model, treeiter),
+                              '--', 'ssh', '{}@{}'.format(model[treeiter][2], model[treeiter][1])])
 
 
 def add_to_store(store, parent, node):
